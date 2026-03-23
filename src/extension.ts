@@ -22,7 +22,28 @@ export async function activate(context: vscode.ExtensionContext) {
     '@'
   );
 
+  // Re-trigger completion when editing after @ (handles backspace case)
+  const textChangeListener = vscode.workspace.onDidChangeTextDocument(event => {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || editor.document !== event.document) {
+      return;
+    }
+    if (event.document.languageId !== 'markdown') {
+      return;
+    }
+
+    const position = editor.selection.active;
+    const lineText = event.document.lineAt(position.line).text;
+    const linePrefix = lineText.substring(0, position.character);
+
+    // If we're in a @ mention context, trigger suggest
+    if (/@\S*$/.test(linePrefix)) {
+      vscode.commands.executeCommand('editor.action.triggerSuggest');
+    }
+  });
+
   context.subscriptions.push(disposable);
+  context.subscriptions.push(textChangeListener);
   context.subscriptions.push({ dispose: () => fileScanner.dispose() });
 
 }

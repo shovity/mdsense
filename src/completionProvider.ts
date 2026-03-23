@@ -7,7 +7,7 @@ export class MentionCompletionProvider implements vscode.CompletionItemProvider 
   provideCompletionItems(
     document: vscode.TextDocument,
     position: vscode.Position
-  ): vscode.CompletionItem[] | undefined {
+  ): vscode.CompletionList | undefined {
     const lineText = document.lineAt(position).text;
     const linePrefix = lineText.substring(0, position.character);
 
@@ -20,7 +20,7 @@ export class MentionCompletionProvider implements vscode.CompletionItemProvider 
     const query = mentionMatch[1];
     const files = query ? this.fileScanner.filter(query) : this.fileScanner.getCache();
 
-    return files.slice(0, 50).map(filePath => {
+    const items = files.slice(0, 50).map(filePath => {
       const item = new vscode.CompletionItem(
         filePath,
         vscode.CompletionItemKind.File
@@ -42,5 +42,8 @@ export class MentionCompletionProvider implements vscode.CompletionItemProvider 
 
       return item;
     });
+
+    // isIncomplete: true ensures VSCode re-triggers when user types/deletes characters
+    return new vscode.CompletionList(items, true);
   }
 }
