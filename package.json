@@ -2,7 +2,7 @@
   "name": "mdsense",
   "displayName": "MDSense",
   "description": "File mention autocomplete for Markdown files using @",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "shovity",
   "license": "MIT",
   "repository": {
