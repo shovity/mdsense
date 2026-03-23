@@ -1,0 +1,50 @@
+{
+  "name": "mdsense",
+  "displayName": "MDSense",
+  "description": "File mention autocomplete for Markdown files using @",
+  "version": "0.0.1",
+  "publisher": "shovity",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shovity/mdsense"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "keywords": [
+    "markdown",
+    "autocomplete",
+    "file",
+    "mention",
+    "reference"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "icon": "images/icon.png",
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "markdown",
+        "extensions": [
+          ".md"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
