@@ -32,6 +32,12 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    // Don't trigger suggest if a newline was just inserted
+    const hasNewline = event.contentChanges.some(change => change.text.includes('\n'));
+    if (hasNewline) {
+      return;
+    }
+
     const position = editor.selection.active;
     const lineText = event.document.lineAt(position.line).text;
     const linePrefix = lineText.substring(0, position.character);
